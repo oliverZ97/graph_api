@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Ontotext D3.js Application</title>
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v3.js"></script>
+  <!--Changed to v3 instead of v4 because of d3.layout is undefined error-->
+</head>
+
+<body>
+  <div class="input">
+    <p>Eingabe für Query</p>
+    <input type="text" id="query" placeholder="type text">
+    <button onclick="getInput()">GO!</button>
+  </div>
+  <div id="chart"></div>
+  <script type="text/javascript">
+
+    const Http = new XMLHttpRequest();
+    const url = 'http://localhost:7200/sparql/';
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) => {
+      console.log(Http.responseText)
+    }
+
+    function getInput() {
+      let input = document.getElementById("query").value;
+      alert(input)
+    }
+
+    var diameter = 1000;
+    //var color = d3.scaleOrdinal(d3.schemeCategory20); //sets a range of 20 colors inside of a empty scale
+
+    var canvas = d3.select("#chart") //Finde Element "#chart" Im DOM
+      .append("svg") //add ein SVG Feld
+      .attr("width", diameter) //SVG bekommt Attribut width mit Wert diameter(600)
+      .attr("height", diameter) //SVG bekommt Attribut height mit Wert diameter(600)
+      .append("g")
+      .attr("transform", "translate(50,50)");
+
+    var pack = d3.layout.pack()
+      .size([diameter, diameter - 50])
+      .padding(10);
+
+    //use command python -m SimpleHTTPServer in file dir and open localhost:8000/ to avoid CORS error
+    dataset = d3.csv("query-result.csv", function (data) {
+
+      var nodes = pack.nodes(data);
+      console.log(nodes);
+
+      var node = canvas.selectAll(".node")
+        .data(nodes[0])
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", function () { return "translate(" + Math.random() * 800 + " " + Math.random() * 800 + ")" })
+
+      node.append("circle")
+        .attr("r", function (d) { return d.Age })
+        .attr("fill", function (d) {
+          if(d.Age <= 33){
+            color = "#EE3333"
+          } else if (d.Age <= 67){
+            color = "#33EE33"
+          } else if (d.Age <=100){
+            color = "#3333EE"
+          } 
+          return color
+        })
+        .attr("opacity", 1)
+        .attr("stroke", "#333333")
+        .attr("stroke-width", "2")
+
+      node.append("text")
+        .text(function (d) { return d.Age })
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "central")
+        .attr("fill", function (d) {
+          if(d.Age <= 67 && d.Age >= 34){
+            return "#111111"
+          } else {
+            return "#EEEEEE"
+          }
+        })
+        .attr("font-family", "Arial")
+        .attr("font-size", 20)
+        .attr("class", "shadow")
+
+      node.append("title")
+        .text(function (d) { return d.Name })
+
+    });
+  </script>
+</body>
+
+</html>

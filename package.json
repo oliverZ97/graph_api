@@ -1,0 +1,18 @@
+{
+  "name": "graph-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "graph_api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node graph_api.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "d3": "^5.11.0",
+    "express": "^4.17.1",
+    "request": "^2.88.0"
+  }
+}
