@@ -19,7 +19,7 @@
   <script type="text/javascript">
 
     const Http = new XMLHttpRequest();
-    const url = 'http://localhost:7200/sparql/';
+    const url = 'http://localhost:3000/api/search?q=' + getInput();
     Http.open("GET", url);
     Http.send();
 
@@ -29,7 +29,7 @@
 
     function getInput() {
       let input = document.getElementById("query").value;
-      alert(input)
+      return input
     }
 
     var diameter = 1000;
