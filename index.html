@@ -18,18 +18,16 @@
   <div id="chart"></div>
   <script type="text/javascript">
 
-    const Http = new XMLHttpRequest();
-    const url = 'http://localhost:3000/api/search?q=' + getInput();
-    Http.open("GET", url);
-    Http.send();
-
-    Http.onreadystatechange = (e) => {
-      console.log(Http.responseText)
-    }
-
     function getInput() {
       let input = document.getElementById("query").value;
-      return input
+      const Http = new XMLHttpRequest();
+      const url = 'http://localhost:3000/api/search?q=' + input;
+      Http.open("GET", url);
+      Http.send();
+
+      Http.onreadystatechange = (e) => {
+        console.log("STATECHANGE")
+      }
     }
 
     var diameter = 1000;
@@ -62,13 +60,13 @@
       node.append("circle")
         .attr("r", function (d) { return d.Age })
         .attr("fill", function (d) {
-          if(d.Age <= 33){
+          if (d.Age <= 33) {
             color = "#EE3333"
-          } else if (d.Age <= 67){
+          } else if (d.Age <= 67) {
             color = "#33EE33"
-          } else if (d.Age <=100){
+          } else if (d.Age <= 100) {
             color = "#3333EE"
-          } 
+          }
           return color
         })
         .attr("opacity", 1)
@@ -80,7 +78,7 @@
         .style("text-anchor", "middle")
         .style("alignment-baseline", "central")
         .attr("fill", function (d) {
-          if(d.Age <= 67 && d.Age >= 34){
+          if (d.Age <= 67 && d.Age >= 34) {
             return "#111111"
           } else {
             return "#EEEEEE"

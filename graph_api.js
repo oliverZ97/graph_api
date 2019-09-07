@@ -2,7 +2,8 @@ const request = require("request");
 const express = require("express")
 const cors = require("cors");
 
-const graphURL = "http://localhost:7200/repositories/test1"
+//const graphURL = "http://localhost:7200/repositories/test1"
+const graphURL = "http://192.168.99.100:7200/repositories/Repo1"
 
 class GraphDBClient {
     constructor(){
@@ -48,8 +49,13 @@ const graphdb = new GraphDBClient();
 
 //app.use(cors);
 
+// app.get('/', (req, res) => {
+//     return res("./index.html")
+// })
+
 app.get('/api/search', (req, res) => {
     let term = req.query.q || '';
+    console.log("Term: ", term)
     let graphrequest = graphdb.createURLFromString(term)
     let promise = graphdb.query(graphrequest);
     promise.then((result) => {
@@ -57,6 +63,7 @@ app.get('/api/search', (req, res) => {
         return res.send(result)
     })
 });
+
 
 app.listen(3000, () =>
     console.log("Server listening on Port 3000")
