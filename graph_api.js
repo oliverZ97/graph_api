@@ -42,7 +42,10 @@ class GraphDBClient {
 const app = express();
 const graphdb = new GraphDBClient();
 
-//app.use(cors);
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 
 app.get('/api/search', (req, res) => {
     let term = req.query.q || '';
