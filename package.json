@@ -5,7 +5,7 @@
   "main": "graph_api.js",
   "dependencies": {
     "cors": "^2.8.5",
-    "d3": "^5.11.0",
+    "d3": "^7.6.1",
     "express": "^4.17.1",
     "node": "^12.9.1",
     "request": "^2.88.0"
